@@ -38,5 +38,9 @@ router.post("/employee_login", (req, res) => {
         return res.json(result)
     })
   })
+  router.get('/logout', (req, res) => {
+    res.clearCookie('token')
+    return res.json({Status: true})
+  })
 
   export {router as EmployeeRoute}  
