@@ -1,5 +1,6 @@
 import express from "express";
 import { adminRouter } from "./Routes/AdminRoute.js";
+import { EmployeeRoute } from "./Routes/EmployeeRoute.js";
 import cors from 'cors'
 
 
@@ -11,6 +12,7 @@ app.use(cors({
 }));
 app.use(express.json())
 app.use('/auth',adminRouter);
+app.use('/employee',EmployeeRoute);
 app.use(express.static('Public'))
 
 app.listen(3000, ()=>{

@@ -29,3 +29,5 @@ router.post("/employee_login", (req, res) => {
       }
     });
   });
+
+  export {router as EmployeeRoute}  
