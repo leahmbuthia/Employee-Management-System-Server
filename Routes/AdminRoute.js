@@ -118,15 +118,20 @@ router.delete('/delete_employee/:id', (req, res) => {
         return res.json({Status: true, Result: result})
     })
 })
-const salaryCount = () => {
-    axios.get('http://localhost:3000/auth/salary_count')
-    .then(result => {
-      if(result.data.Status) {
-        setSalaryTotal(result.data.Result[0].salaryOFEmp)
-      } else {
-        alert(result.data.Error)
-      }
+router.get('/salary_count', (req, res) => {
+    const sql = "select sum(salary) as salaryOFEmp from employee";
+    con.query(sql, (err, result) => {
+        if(err) return res.json({Status: false, Error: "Query Error"+err})
+        return res.json({Status: true, Result: result})
     })
-  }
+})
+  router.get('/admin_records', (req, res) => {
+    const sql = "select * from admin"
+    con.query(sql, (err, result) => {
+        if(err) return res.json({Status: false, Error: "Query Error"+err})
+        return res.json({Status: true, Result: result})
+    })
+})
+
 
 export {router as adminRouter}
