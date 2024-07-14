@@ -84,23 +84,23 @@ router.get('/employee', (req, res) => {
         return res.json({Status: true, Result: result})
     })
 })
-// router.put('/edit_employee/:id', (req, res) => {
-//     const id = req.params.id;
-//     const sql = `UPDATE employee 
-//         set name = ?, email = ?, salary = ?, address = ?, category_id = ? 
-//         Where id = ?`
-//     const values = [
-//         req.body.name,
-//         req.body.email,
-//         req.body.salary,
-//         req.body.address,
-//         req.body.category_id
-//     ]
-//     con.query(sql,[...values, id], (err, result) => {
-//         if(err) return res.json({Status: false, Error: "Query Error"+err})
-//         return res.json({Status: true, Result: result})
-//     })
-// })
+router.put('/edit_employee/:id', (req, res) => {
+    const id = req.params.id;
+    const sql = `UPDATE employee 
+        set name = ?, email = ?, salary = ?, address = ?, category_id = ? 
+        Where id = ?`
+    const values = [
+        req.body.name,
+        req.body.email,
+        req.body.salary,
+        req.body.address,
+        req.body.category_id
+    ]
+    con.query(sql,[...values, id], (err, result) => {
+        if(err) return res.json({Status: false, Error: "Query Error"+err})
+        return res.json({Status: true, Result: result})
+    })
+})
 router.get('/employee/:id', (req, res) => {
     const id = req.params.id;
     const sql = "SELECT * FROM employee WHERE id = ?";
