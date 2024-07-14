@@ -30,4 +30,13 @@ router.post("/employee_login", (req, res) => {
     });
   });
 
+  router.get('/detail/:id', (req, res) => {
+    const id = req.params.id;
+    const sql = "SELECT * FROM employee where id = ?"
+    con.query(sql, [id], (err, result) => {
+        if(err) return res.json({Status: false});
+        return res.json(result)
+    })
+  })
+
   export {router as EmployeeRoute}  
