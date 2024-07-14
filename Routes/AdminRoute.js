@@ -9,23 +9,24 @@ import path from "path";
 
 const router =express.Router();
 
-router.post('/adminlogin',(req,res) =>{
-    // console.log(req.body,"hello");
-    const sql="SELECT * from admin Where emai=? and password=?"
-    con.query(sql,[req.body.email, req.body.password], (err, result) => {
-        if(err) return res.json({loginStatus:false, Error:"Query error"})
-            if(result.length > 0){
-                const email =result[0].email;
-                const token =jwt.sign({role: "admin",email:email}, "jwt_secret_key",{expiresIn:"id"}
-                  
-                );
-                res.cookie('token',token)
-                return res.json({loginStatus:true})
-            }else{
-                return res.json({loginStatus:false, Error:"wrong email or password"})
-            }
-    })
-})
+router.post("/adminlogin", (req, res) => {
+    const sql = "SELECT * from admin Where email = ? and password = ?";
+    con.query(sql, [req.body.email, req.body.password], (err, result) => {
+      if (err) return res.json({ loginStatus: false, Error: "Query error" });
+      if (result.length > 0) {
+        const email = result[0].email;
+        const token = jwt.sign(
+          { role: "admin", email: email, id: result[0].id },
+          "jwt_secret_key",
+          { expiresIn: "1d" }
+        );
+        res.cookie('token', token)
+        return res.json({ loginStatus: true });
+      } else {
+          return res.json({ loginStatus: false, Error:"wrong email or password" });
+      }
+    });
+  });
 
 router.get('/category', (req, res) => {
     const sql = "SELECT * FROM category";
@@ -117,5 +118,15 @@ router.delete('/delete_employee/:id', (req, res) => {
         return res.json({Status: true, Result: result})
     })
 })
+const salaryCount = () => {
+    axios.get('http://localhost:3000/auth/salary_count')
+    .then(result => {
+      if(result.data.Status) {
+        setSalaryTotal(result.data.Result[0].salaryOFEmp)
+      } else {
+        alert(result.data.Error)
+      }
+    })
+  }
 
 export {router as adminRouter}
